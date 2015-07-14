@@ -15,23 +15,23 @@ for (var i = 0; i < 5; i++) {
     });
 }
 
-
 var rectangles = svg.selectAll('rect');
-window.rectangles = rectangles;
-console.log(rectangles);
 
 
-// Lesson 2 showed that updating data with mismatched number of data elements
-// doesn't behave very nicely.
-// Try:
-//  updateData([1, 2])
-//  updateData([1, 2, 3, 4, 5, 6, 7])
 window.updateData = function(someNewData) {
+
+    // Lesson 2 showed that updating data with mismatched number of data elements
+    // doesn't behave very nicely.
     rectangles.data(someNewData)
         .attr('height', function(d) {
             return d * 50;
         });
+
 };
+// Try:
+//   updateData([1, 2])
+//   updateData([1, 2, 3, 4, 5, 6, 7])
+
 
 
 // Applying data just returns the same selection, but it's modified!
@@ -71,6 +71,7 @@ window.updateDataBest = function(someNewData) {
     // Create
     rectangles.enter()
         .append('rect')
+
         .attr({
             x: function(d, i) {return 100 + i * 100},
             y: 100,
@@ -89,10 +90,8 @@ window.updateDataBest = function(someNewData) {
     rectangles
         .data(someNewData)
         .transition()
-//        .duration(2000)
+        .duration(2000)
         .attr('height', function(d) {
             return d * 50;
         });
 };
-
-

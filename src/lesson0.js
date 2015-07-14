@@ -28,7 +28,7 @@ var listItems = list.selectAll('li');
 // The data itself drives the structure of the document.
 // Here we create a <li> element for each item in the data.
 listItems.data(exampleUrlData)
-    .enter()
+    .enter()  // enter() is some magic that will be explained later...
         .append('li')
         .html(function (data) {
             var linkText = data[0];
@@ -38,5 +38,5 @@ listItems.data(exampleUrlData)
 
 
 // D3 is completely decoupled from specific DOM elements. Even though it's
-// often applied to SVG elements, this is not required. (Also works with
-// canvas or plain html.)
+// often applied to SVG elements, this is not required. It also works with
+// canvas or plain html elements as shown above.

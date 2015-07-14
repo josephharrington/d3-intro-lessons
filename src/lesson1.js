@@ -26,7 +26,8 @@ svg.append('circle')
     .on('mouseout', function() { d3.select(this).style('fill', 'olive');} );
 
 
-// Line (and you can also apply attrs and styles with an object)
+// Line
+// This also shows how you can also apply attrs and styles with an object.
 svg.append('line')
     .attr({
         x1: 700,
