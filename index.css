@@ -15,6 +15,26 @@ li {
     padding: 5px;
 }
 
-/*------------------------------------------------------*/
+/*------------------- Example 2 -------------------*/
+
+.blueCircle {
+    fill: lightskyblue;
+    stroke: mediumblue;
+    stroke-width: 3px;
+}
 
 
+
+/*------------------- Example 4 -------------------*/
+
+.link {
+    stroke: cornflowerblue;
+    stroke-width: 4px;
+}
+
+.node {
+    cursor: move;
+    fill: darkorchid;
+    stroke: mediumblue;
+    stroke-width: 3px;
+}

@@ -1,9 +1,8 @@
 require('d3');
-
-var contentDiv = d3.select('#content');
-var svg = contentDiv.append('svg')
+var svg = d3.select('#content').append('svg')
     .attr('width', window.innerWidth)
     .attr('height', window.innerHeight);
+
 
 // Rect
 svg.append('rect')
@@ -11,8 +10,8 @@ svg.append('rect')
     .attr('y', 100)
     .attr('width', 400)
     .attr('height', 200)
-    .style('fill', 'tomato')
-    .style('stroke', 'indigo')
+    .style('fill', 'salmon')
+    .style('stroke', 'firebrick')
     .style('stroke-width', 5);
 
 // Circle
@@ -22,18 +21,20 @@ svg.append('circle')
     .attr('r', 100)
     .style('fill', 'olive')
     .style('stroke', 'darkolivegreen')
-    .style('stroke-width', 25);
+    .style('stroke-width', 25)
+    .on('mouseover', function() { d3.select(this).style('fill', 'burlywood');} )
+    .on('mouseout', function() { d3.select(this).style('fill', 'olive');} );
 
 
 // Line (and you can also apply attrs and styles with an object)
 svg.append('line')
     .attr({
-        'x1': 700,
-        'y1': 200,
-        'x2': 700,
-        'y2': 500
+        x1: 700,
+        y1: 200,
+        x2: 300,
+        y2: 200
     })
     .style({
-        'stroke': 'rebeccapurple',
+        stroke: 'maroon',
         'stroke-width': 20
     });

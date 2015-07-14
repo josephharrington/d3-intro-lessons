@@ -15,10 +15,10 @@ container.append('h1')
 
 // Example of D3 data binding. Data can be an array of anything...
 var exampleUrlData = [
-    ['Example 1: SVG Intro', '?example1'],
-    ['Example 2', '?example2'],
-    ['Example 3', '?example3'],
-    ['Example 4', '?example4']
+    ['Lesson 1: SVG Intro', '?lesson1'],
+    ['Lesson 2: Selections and Data', '?lesson2'],
+    ['Lesson 3: Enter and Exit', '?lesson3'],
+    ['Lesson 4: Force Layout', '?lesson4']
 ];
 
 
