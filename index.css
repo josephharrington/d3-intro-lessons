@@ -1,0 +1,17 @@
+html, body, p {
+    margin: 20px;
+    font-size: 20px;
+    font-family: "Helvetica", "Arial", sans-serif;
+}
+
+h1, p {
+    font-weight: 200;
+}
+
+li {
+    padding: 5px;
+}
+
+/*------------------------------------------------------*/
+
+
