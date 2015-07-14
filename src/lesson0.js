@@ -1,7 +1,11 @@
 require('d3');
 
 
-// d3 in some ways is similar to jQuery.
+// The javascript in this file creates a simple page with a header and a list
+// of four clickable links.
+
+
+// D3 select in a way is similar to selecting elements with jQuery.
 var contentDiv = d3.select('#content');
 
 
@@ -21,16 +25,18 @@ var exampleUrlData = [
     ['Lesson 4: Force Layout', '?lesson4']
 ];
 
+// D3 makes you write code in a way such that the data itself drives the
+// structure of the document.
+
 
 var list = container.append('ul');
 var listItems = list.selectAll('li');
 
-// The data itself drives the structure of the document.
-// Here we create a <li> element for each item in the data.
-listItems.data(exampleUrlData)
-    .enter()  // enter() is some magic that will be explained later...
-        .append('li')
-        .html(function (data) {
+listItems
+    .data(exampleUrlData)
+    .enter()  // (enter() is some magic that will be explained later)
+        .append('li')  // Here we create a <li> element for each item in the data
+        .html(function(data) {  // And set the content of each <li>.
             var linkText = data[0];
             var linkUrl = data[1];
             return '<a href="' + linkUrl + '">' + linkText + '</a>';

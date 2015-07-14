@@ -44,8 +44,8 @@
 /* 0 */
 /***/ function(module, exports, __webpack_require__) {
 
-	moduleToLoad = './' + (location.search ? location.search.substring(1) : 'index');
-	__webpack_require__(1)(moduleToLoad);
+	moduleToLoad = location.search ? location.search.substring(1) : 'lesson0';
+	__webpack_require__(1)("./" + moduleToLoad);
 
 
 /***/ },
@@ -53,8 +53,8 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var map = {
-		"./index": 2,
-		"./index.js": 2,
+		"./lesson0": 2,
+		"./lesson0.js": 2,
 		"./lesson1": 4,
 		"./lesson1.js": 4,
 		"./lesson2": 5,
@@ -85,7 +85,11 @@
 	__webpack_require__(3);
 
 
-	// d3 in some ways is similar to jQuery.
+	// The javascript in this file creates a simple page with a header and a list
+	// of four clickable links.
+
+
+	// D3 select in a way is similar to selecting elements with jQuery.
 	var contentDiv = d3.select('#content');
 
 
@@ -105,16 +109,18 @@
 	    ['Lesson 4: Force Layout', '?lesson4']
 	];
 
+	// D3 makes you write code in a way such that the data itself drives the
+	// structure of the document.
+
 
 	var list = container.append('ul');
 	var listItems = list.selectAll('li');
 
-	// The data itself drives the structure of the document.
-	// Here we create a <li> element for each item in the data.
-	listItems.data(exampleUrlData)
-	    .enter()
-	        .append('li')
-	        .html(function (data) {
+	listItems
+	    .data(exampleUrlData)
+	    .enter()  // (enter() is some magic that will be explained later)
+	        .append('li')  // Here we create a <li> element for each item in the data
+	        .html(function(data) {  // And set the content of each <li>.
 	            var linkText = data[0];
 	            var linkUrl = data[1];
 	            return '<a href="' + linkUrl + '">' + linkText + '</a>';
@@ -122,8 +128,8 @@
 
 
 	// D3 is completely decoupled from specific DOM elements. Even though it's
-	// often applied to SVG elements, this is not required. (Also works with
-	// canvas or plain html.)
+	// often applied to SVG elements, this is not required. It also works with
+	// canvas or plain html elements as shown above.
 
 
 /***/ },
@@ -9666,7 +9672,8 @@
 	    .on('mouseout', function() { d3.select(this).style('fill', 'olive');} );
 
 
-	// Line (and you can also apply attrs and styles with an object)
+	// Line
+	// This also shows how you can also apply attrs and styles with an object.
 	svg.append('line')
 	    .attr({
 	        x1: 700,
@@ -9718,64 +9725,85 @@
 	// https://github.com/mbostock/d3/wiki/Selections
 
 
-	// You can also provide a function when assigning attributes.
-	// D3 will call the function to get a value for the attribute.
 	window.randomize = function() {
+
+	    // You can also provide a function when assigning attributes.
+	    // D3 will call the function to get a value for the attribute.
 	    rectangles.attr('height', function() {
 	        return Math.random() * 300;
 	    });
+
 	};
+
 
 
 	// You can "bind" data to a selection. Here, we'll bind ints to the rects.
 	rectangles.data([1, 2, 3, 4, 5]);
+
 	// Binding data doesn't do anything by itself. It actually just assigns each
 	// value to the __data__ property of each element. (You can see this in the
 	// Properties inspector in Chrome devtools.)
 
 
-	// If we use a function to assign an attribute, D3 passes the element's data
-	// as the first argument.
+	// So, how is data binding useful?
+
+
+
 	window.updateHeight = function() {
+
+	    // If we use a function to assign an attribute to a selection of elements,
+	    // D3 passes each element's bound data as the first argument.
 	    rectangles
 	        .attr('height', function(datum) {
 	            return datum * 50;
 	        });
+
 	};
 
-
-	// Try running these in the console.
-	//    rectangles.data([5, 4, 3, 2, 1])
-	//    rectangles.attr('height', function(d) {return d * 50})
-
+	// Try running these commands in the javascript console:
+	//   rectangles.data([5, 4, 3, 2, 1]);
+	//   updateHeight();
 
 
-	// Setting data and updating attributes is often done at the same time.
+
 	window.updateHeightData = function(someNewData) {
+
+	    // Setting data and updating attributes is often done at the same time.
 	    rectangles
 	        .data(someNewData)
 	        .attr('height', function(d) {
 	            return d * 50;
 	        });
+
 	};
 
+	// Try:
+	//   updateHeightData([7, 1, 7, 1, 7])
 
-	// And we can easily make these data changes look nice. :)
+
+
 	window.updateHeightDataWithTransition = function(someNewData) {
+
+	    // And we can easily make these data changes look nice. :)
 	    rectangles
 	        .data(someNewData)
 	        .transition()
-	//        .duration(2000)
+	//        .duration(2000)  // Transitions are customizable. Try uncommenting this line.
 	        .attr('height', function(d) {
 	            return d * 50;
 	        });
+
 	};
+
+	// Try:
+	//   updateHeightDataWithTransition([1, 1, 3, 5, 2])
+
 
 
 	// But what happens if your selection and data are different sizes?
 	// Try:
-	//  updateHeightData([1, 2])
-	//  updateHeightData([1, 2, 3, 4, 5, 6, 7])
+	//   updateHeightData([1, 2])
+	//   updateHeightData([1, 2, 3, 4, 5, 6, 7])
 
 	// Neither of the above do what we want...
 
@@ -9801,23 +9829,23 @@
 	    });
 	}
 
-
 	var rectangles = svg.selectAll('rect');
-	window.rectangles = rectangles;
-	console.log(rectangles);
 
 
-	// Lesson 2 showed that updating data with mismatched number of data elements
-	// doesn't behave very nicely.
-	// Try:
-	//  updateData([1, 2])
-	//  updateData([1, 2, 3, 4, 5, 6, 7])
 	window.updateData = function(someNewData) {
+
+	    // Lesson 2 showed that updating data with mismatched number of data elements
+	    // doesn't behave very nicely.
 	    rectangles.data(someNewData)
 	        .attr('height', function(d) {
 	            return d * 50;
 	        });
+
 	};
+	// Try:
+	//   updateData([1, 2])
+	//   updateData([1, 2, 3, 4, 5, 6, 7])
+
 
 
 	// Applying data just returns the same selection, but it's modified!
@@ -9857,6 +9885,7 @@
 	    // Create
 	    rectangles.enter()
 	        .append('rect')
+
 	        .attr({
 	            x: function(d, i) {return 100 + i * 100},
 	            y: 100,
@@ -9875,13 +9904,11 @@
 	    rectangles
 	        .data(someNewData)
 	        .transition()
-	//        .duration(2000)
+	        .duration(2000)
 	        .attr('height', function(d) {
 	            return d * 50;
 	        });
 	};
-
-
 
 
 /***/ },
