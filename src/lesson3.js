@@ -3,6 +3,8 @@ var svg = d3.select('#content').append('svg')
     .attr('width', window.innerWidth)
     .attr('height', window.innerHeight);
 
+
+// Make 5 rectangles for us to play with.
 for (var i = 0; i < 5; i++) {
     svg.append('rect').attr({
         x: 100 + i * 100,
@@ -12,6 +14,7 @@ for (var i = 0; i < 5; i++) {
         class: 'blueShape'
     });
 }
+
 
 var rectangles = svg.selectAll('rect');
 window.rectangles = rectangles;
