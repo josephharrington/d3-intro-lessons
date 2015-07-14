@@ -60,6 +60,6 @@ function tick() {
 }
 
 
-// Things to try in console
-// lines = d3.select(null);
-// lines.data([]).exit().remove()
+// Things to try in console (make global first)
+//     lines = d3.select(null);
+//     lines = lines.data([]).exit().remove()

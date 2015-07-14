@@ -22,11 +22,12 @@ var exampleUrlData = [
 ];
 
 
+var list = container.append('ul');
+var listItems = list.selectAll('li');
+
 // The data itself drives the structure of the document.
 // Here we create a <li> element for each item in the data.
-var list = container.append('ul');
-
-list.selectAll('li').data(exampleUrlData)
+listItems.data(exampleUrlData)
     .enter()
         .append('li')
         .html(function (data) {
