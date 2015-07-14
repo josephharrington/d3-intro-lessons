@@ -1,0 +1,16 @@
+{
+  "name": "d3_walkthrough",
+  "version": "1.0.0",
+  "description": "D3.js Walkthrough",
+  "dependencies": {
+  },
+  "devDependencies": {
+    "webpack": "^1.10.1",
+    "webpack-dev-server": "^1.10.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@gitenterprise.inside-box.net:jharrington/d3_walkthrough.git"
+  },
+  "author": "Joey Harrington"
+}
