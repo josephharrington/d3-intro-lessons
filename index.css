@@ -19,6 +19,10 @@ li {
     padding: 5px;
 }
 
+.filename {
+    font-family: monospace;
+}
+
 /*------------------- Example 2 -------------------*/
 
 .blueShape {

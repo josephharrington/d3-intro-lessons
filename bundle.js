@@ -106,7 +106,8 @@
 
 	// Add a subtitle about instructions being in the source code. So meta. :)
 	contentDiv.append('h2')
-	    .html('Lesson instructions are in the source code. Open src/lesson0.js in a text editor and follow along!');
+	    .html('Lesson instructions are in the source code. ' +
+	          'Open <span class="filename">src/lesson0.js</span> in a text editor and follow along!');
 
 
 	// The power of D3 is how it lets you bind data to elements on the page.
@@ -142,9 +143,7 @@
 	            // content, we can give it a function parameterized by our data. Each element of our data above
 	            // gets passed to this function.
 	            function(data) {
-	                var linkText = data.title;
-	                var linkUrl = data.url;
-	                return '<a href="?' + linkUrl + '">' + linkText + '</a>';
+	                return '<a href="?' + data.url + '">' + data.title + '</a>';
 	            }
 	        );
 
