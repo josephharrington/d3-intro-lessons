@@ -13,8 +13,8 @@ browser as you save changes.
 
 #### Clone repo and launch web server ####
 ```bash
-git clone git@gitenterprise.inside-box.net:jharrington/d3_walkthrough.git
-cd d3_walkthrough
+git clone https://github.com/josephharrington/d3-intro-lessons.git
+cd d3-intro-lessons
 npm install webpack-dev-server -g
 
 webpack-dev-server --hot --inline
