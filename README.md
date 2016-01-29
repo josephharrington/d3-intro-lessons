@@ -1,4 +1,5 @@
-## D3.js Tutorial ##
+## D3.js Intro Lessons ##
+A few lessons to help beginners get started programming using [D3.js](http://d3js.org/).
 
 ### Quickstart ###
 This tutorial takes the form of five lessons. Start at the beginning:
