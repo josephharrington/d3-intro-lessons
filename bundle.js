@@ -84,52 +84,79 @@
 
 	__webpack_require__(3);
 
+	// Lesson 0: Table of Contents
 
 	// The javascript in this file creates a simple page with a header and a list
 	// of four clickable links.
 
 
 	// D3 select in a way is similar to selecting elements with jQuery.
+	// This selects the <div/> element on the page with the id of "content".
 	var contentDiv = d3.select('#content');
 
 
-	// You can also modify the DOM and edit attributes and style.
-	var container = contentDiv.append('div')
+	// Once you have a reference to an element on the page, you can modify the DOM
+	// and edit attributes and style.
+	contentDiv
 	    .style('margin', '100px');
 
-	container.append('h1')
+	// Add a header.
+	contentDiv.append('h1')
 	    .text('D3.js Walkthrough');
 
+	// Add a subtitle about instructions being in the source code. So meta. :)
+	contentDiv.append('h2')
+	    .html('Lesson instructions are in the source code. Open src/lesson0.js in a text editor and follow along!');
 
-	// Example of D3 data binding. Data can be an array of anything...
-	var exampleUrlData = [
-	    ['Lesson 1: SVG Intro', '?lesson1'],
-	    ['Lesson 2: Selections and Data', '?lesson2'],
-	    ['Lesson 3: Enter and Exit', '?lesson3'],
-	    ['Lesson 4: Force Layout', '?lesson4']
+
+	// The power of D3 is how it lets you bind data to elements on the page.
+	// Data can be anything! In this case we want to create a list
+	// of links, so our data is just the link text and urls:
+	var lessonTitlesAndUrls = [
+	    {title: 'Lesson 1: SVG Intro', url: 'lesson1'},
+	    {title: 'Lesson 2: Selections and Data', url: 'lesson2'},
+	    {title: 'Lesson 3: Enter and Exit', url: 'lesson3'},
+	    {title: 'Lesson 4: Force Layout', url: 'lesson4'}
 	];
 
+
+	// The list of links will be an unordered list (<ul>) element with a list
+	// item (<li>) corresponding to each
+	var list = contentDiv.append('ul');
+	var listItems = list.selectAll('li');  // There aren't any <li> elements yet! selectAll() will be explained soon.
+
+
 	// D3 makes you write code in a way such that the data itself drives the
-	// structure of the document.
-
-
-	var list = container.append('ul');
-	var listItems = list.selectAll('li');
+	// structure of the document. There's a natural one-to-one correspondance
+	// between the data and the structure of created elements.
 
 	listItems
-	    .data(exampleUrlData)
-	    .enter()  // (enter() is some magic that will be explained later)
-	        .append('li')  // Here we create a <li> element for each item in the data
-	        .html(function(data) {  // And set the content of each <li>.
-	            var linkText = data[0];
-	            var linkUrl = data[1];
-	            return '<a href="' + linkUrl + '">' + linkText + '</a>';
-	        });
+	    .data(lessonTitlesAndUrls)  // Here's where we define what data we're working with.
+	    .enter()  // enter() will be explained more later. It's a way of defining what happens when we get new data.
 
+	        .append('li')  // Here we create a <li> element for each item in the data...
+
+	        .html(  // ...and set the html content of each <li>.
+
+	            // Here is the meaty part of D3! Instead of setting each list item to have some *static* html
+	            // content, we can give it a function parameterized by our data. Each element of our data above
+	            // gets passed to this function.
+	            function(data) {
+	                var linkText = data.title;
+	                var linkUrl = data.url;
+	                return '<a href="?' + linkUrl + '">' + linkText + '</a>';
+	            }
+	        );
+
+
+	// That's it! The important thing to note is that the format of the data we
+	// chose was completely up to us, and that D3 allows us to define the document
+	// content explicitly as a function of the data.
 
 	// D3 is completely decoupled from specific DOM elements. Even though it's
-	// often applied to SVG elements, this is not required. It also works with
-	// canvas or plain html elements as shown above.
+	// often applied to SVG elements for making pretty pictures, this is not
+	// required. It also works with <canvas> or even just plain html elements as
+	// this example showed.
 
 
 /***/ },
@@ -9645,20 +9672,33 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	__webpack_require__(3);
+
+	// Lesson 1: SVG Intro
+
+	// The code in this lesson is really just an intro to SVG elements. Feel free to play around with
+	// the parameters and watch how it affects the elements on the page. This uses a few D3 methods to
+	// create the page content, but this could just as easily have been written in pure html (except
+	// for the color-changey event handlers). This code really is not using any of the data-binding power
+	// of D3 -- but that is coming up next!
+
+
+	// This just sets up an SVG "canvas" that covers the full page. This doesn't look like
+	// anything by itself but we'll add more graphical elements to it.
 	var svg = d3.select('#content').append('svg')
 	    .attr('width', window.innerWidth)
 	    .attr('height', window.innerHeight);
 
 
-	// Rect
+	// Rectangle
 	svg.append('rect')
 	    .attr('x', 100)
 	    .attr('y', 100)
 	    .attr('width', 400)
 	    .attr('height', 200)
-	    .style('fill', 'salmon')
-	    .style('stroke', 'firebrick')
+	    .style('fill', 'salmon')  // SVG elements have a style attribute and can actually be set with pure CSS,
+	    .style('stroke', 'firebrick')  // but the property names are slightly different than html.
 	    .style('stroke-width', 5);
+
 
 	// Circle
 	svg.append('circle')
@@ -9668,12 +9708,13 @@
 	    .style('fill', 'olive')
 	    .style('stroke', 'darkolivegreen')
 	    .style('stroke-width', 25)
-	    .on('mouseover', function() { d3.select(this).style('fill', 'burlywood');} )
+	    .on('mouseover', function() { d3.select(this).style('fill', 'burlywood');} )  // Easily set event handlers!
 	    .on('mouseout', function() { d3.select(this).style('fill', 'olive');} );
 
 
 	// Line
-	// This also shows how you can also apply attrs and styles with an object.
+	// This also shows how you can also apply a bunch of attrs and styles all at once with an object (instead of
+	// one at a time like the examples above).
 	svg.append('line')
 	    .attr({
 	        x1: 700,
@@ -9682,9 +9723,13 @@
 	        y2: 200
 	    })
 	    .style({
-	        stroke: 'maroon',
+	        'stroke': 'maroon',
 	        'stroke-width': 20
 	    });
+
+
+	// These are just 3 different types, but there are so many more SVG elements!
+	// Full list at: https://developer.mozilla.org/en-US/docs/Web/SVG/Element
 
 
 /***/ },
@@ -9696,9 +9741,7 @@
 	    .attr('width', window.innerWidth)
 	    .attr('height', window.innerHeight);
 
-
-
-	// Make 5 rectangles for us to play with.
+	// Put 5 rectangles on the page for us to play with.
 	for (var i = 0; i < 5; i++) {
 	    svg.append('rect').attr({
 	        x: 200 + i * 200,
@@ -9710,34 +9753,47 @@
 	}
 
 
-	// Selections are one of the core concepts of d3. A selection is essentially an
-	// array of DOM elements. But a selection is a special d3 object -- it's
-	// actually a subclass of array with lots of extra methods.
+	// Lesson 2: Selections and Data
+
+	// "Selections" are one of the core concepts of d3. A selection is conceptually just an
+	// array of DOM elements. But a selection isn't actually an array -- it's a special d3 object.
+	// (In fact it's actually a subclass of a javascript array with lots of extra methods.)
+
+
+	// This call gives us a selection of all the <rect> elements on the page (the five we created above).
 	var rectangles = svg.selectAll('rect');
 
 
-	// Assigning properties to "window" makes them available in the js console.
-	// Try inspecting the rects variable in the JS console.
-	window.rectangles = rectangles;
-
-
-	// See a description and list of all the selection methods:
+	// There are a bunch of ways to select elements. For a description and list of all the selection methods:
 	// https://github.com/mbostock/d3/wiki/Selections
+
+
+	// Assigning properties to "window" makes them available in the js console.
+	// Try typing "rectangles" into the JS console. (https://developer.chrome.com/devtools/docs/console)
+	window.rectangles = rectangles;
 
 
 	window.randomize = function() {
 
-	    // You can also provide a function when assigning attributes.
+	    // You can provide a function when assigning attributes to a selection.
 	    // D3 will call the function to get a value for the attribute.
 	    rectangles.attr('height', function() {
 	        return Math.random() * 300;
 	    });
 
 	};
+	// Now we have a function called "randomize" that will give a random height to each
+	// element in the rectangles selection.
+
+
+	// Try typing this in the js console:
+	//   randomize()
+
+	// You should see the rectangles all change height every time randomize() is called.
 
 
 
-	// You can "bind" data to a selection. Here, we'll bind ints to the rects.
+	// You can "bind" data to a selection. Here, we'll bind integers to the <rect> elements.
 	rectangles.data([1, 2, 3, 4, 5]);
 
 	// Binding data doesn't do anything by itself. It actually just assigns each
@@ -9777,14 +9833,14 @@
 
 	};
 
-	// Try:
+	// Try this your browser's js console:
 	//   updateHeightData([7, 1, 7, 1, 7])
 
 
 
 	window.updateHeightDataWithTransition = function(someNewData) {
 
-	    // And we can easily make these data changes look nice. :)
+	    // And we can easily make these data changes look nice with animation. :)
 	    rectangles
 	        .data(someNewData)
 	        .transition()
@@ -9795,17 +9851,18 @@
 
 	};
 
-	// Try:
+	// Try this your browser's js console:
 	//   updateHeightDataWithTransition([1, 1, 3, 5, 2])
 
 
 
 	// But what happens if your selection and data are different sizes?
-	// Try:
+	// Try this your browser's js console:
 	//   updateHeightData([1, 2])
 	//   updateHeightData([1, 2, 3, 4, 5, 6, 7])
 
-	// Neither of the above do what we want...
+	// Neither of the above do what we'd expect! We still have five rectangles. :(
+	// But we can fix that...
 
 
 /***/ },
@@ -9817,7 +9874,6 @@
 	    .attr('width', window.innerWidth)
 	    .attr('height', window.innerHeight);
 
-
 	// Make 5 rectangles for us to play with.
 	for (var i = 0; i < 5; i++) {
 	    svg.append('rect').attr({
@@ -9828,8 +9884,15 @@
 	        class: 'blueShape'
 	    });
 	}
-
 	var rectangles = svg.selectAll('rect');
+
+
+	// Lesson 3: Enter and Exit
+
+	// In the last lesson we saw that we can bind data to elements on the page, and then use that
+	// data to change the appearance of the elements. But what if the data we're using is not a fixed
+	// length? We'll probably want to add and remove elements if the size of our data changes. That's
+	// where D3's enter() and exit() methods come in.
 
 
 	window.updateData = function(someNewData) {
@@ -9846,15 +9909,18 @@
 	//   updateData([1, 2])
 	//   updateData([1, 2, 3, 4, 5, 6, 7])
 
+	// Either way we still have 5 rectangles. :(
 
 
-	// Applying data just returns the same selection, but it's modified!
-	// Now enter() and exit() will refer to the additional or missing elements.
+
+	// When we bind data to a selection with the data() method, it gives us back the same selection
+	// so that we can chain more calls. But that selection is actually slightly modified! If the number
+	// of data elements changed, enter() and exit() will refer to the additional or missing elements.
 	window.updateDataBetter = function(someNewData) {
 
 	    rectangles = rectangles.data(someNewData);
 
-	    // Create new
+	    // Create new rectangles
 	    rectangles.enter()
 	        .append('rect')
 	        .attr({
@@ -9865,7 +9931,7 @@
 	            class: 'blueShape'
 	        });
 
-	    // Destroy old
+	    // Destroy old rectangles
 	    rectangles.exit()
 	        .remove();
 
@@ -9876,8 +9942,12 @@
 	        });
 	};
 
+	// Try:
+	//   updateDataBetter([1, 2])
+	//   updateDataBetter([1, 2, 3, 4, 5, 6, 7])
 
-	// We can make this look good too. :)
+
+	// And of course can make this look good too just by adding transition(). :)
 	window.updateDataBest = function(someNewData) {
 
 	    rectangles = rectangles.data(someNewData);
@@ -9910,6 +9980,10 @@
 	        });
 	};
 
+	// Try:
+	//   updateDataBest([1, 2])
+	//   updateDataBest([1, 2, 3, 4, 5, 6, 7])
+
 
 /***/ },
 /* 7 */
@@ -9922,49 +9996,68 @@
 	    .attr('height', height);
 
 
+	// Lesson 4: Force Layout
+
+	// D3 has a ton of other fun stuff to make visualizations of data easy! D3 provides a bunch
+	// of "layouts" which are kind of shortcuts/presets to getting nice looking visualizations.
+	// One of my favorites is the "force layout" which does a physical simulation on a graph of
+	// nodes and edges.
+
 	// This example is adapted from http://bl.ocks.org/mbostock/3750558
+	// The force layout is just one of several layouts that D3 provides.
+	// Check out other layouts at: https://github.com/mbostock/d3/wiki/Layouts
 
 
-	// Some initialization params for the force layout.
+	// First some basic initialization for the force layout.
 	// For more options see: https://github.com/mbostock/d3/wiki/Force-Layout#force
 	var force = d3.layout.force()
 	    .size([window.innerWidth, window.innerHeight])
-	    .charge(-800)// Force layout has a bunch of arbitrary parameters. Just tweak them until it looks good.
+	    .charge(-800)  // Force layout has a bunch of arbitrary parameters. Just tweak them until it looks good. :)
 	    .linkDistance(50)
-	    .on('tick', tick);
+	    .on('tick', tick);  // "tick" is our own update function defined below.
 
 
-	// Creating the initial (empty) selections.
-	// These need to be defined here since the tick() function will use these to update the DOM.
+	// Create the initial (empty) selections.
+	// These need to be defined here since the tick() function below will use these selections to update the DOM.
 	var lines = svg.selectAll('.link');
 	var circles = svg.selectAll('.node');
 
 
-	// Make an ajax call to get some json data. This could be any rest API.
-	d3.json('data/lesson4.json', function(error, data) {
+	// Previous lessons just defined data inline, which actually isn't that useful in real life. D3
+	// has a few methods (similar to jquery) that allow you to make ajax calls to get your data. For
+	// this example I just use a static json file, but it could be any http endpoint, REST api, etc.
+	d3.json('data/lesson4.json', function(error, jsonData)
+	{
+	    if (error) {
+	        throw error;
+	    }
 
-	    if (error) throw error;
+	    force.nodes(jsonData.nodes)  // Nodes are just objects with an x and y value.
+	         .links(jsonData.links)  // Links are the edges of the graph, and define which nodes are linked.
+	         .start();  // This starts D3's simulation loop.
 
-	    force.nodes(data.nodes)
-	         .links(data.links)
-	         .start();
+	    // The above is all that's needed to get the force layout going! But it's only a numerical simulation.
+	    // All it's doing is updating the x and y values for each node several times per second.
 
-	    lines = lines.data(data.links)
-	        .enter()
-	            .append('line')
-	            .attr('class', 'link');
+	    // That's not very useful unless we draw some svg elements to show what's happening. But we already know
+	    // how to do that! This is the same thing we've done in the previous lessons:
+	    lines = lines.data(jsonData.links);
+	    lines.enter()
+	        .append('line')
+	        .attr('class', 'link');  // This just adds a css class that makes things pretty.
 
-	    lines.data(data.links).exit().remove();
-
-	    circles = circles.data(data.nodes)
-	        .enter()
-	            .append('circle')
-	            .attr('class', 'node')
-	            .attr('r', 20)
-	            .call(force.drag);  // Bind a behavior to nodes to allow interactive dragging.
+	    circles = circles.data(jsonData.nodes);
+	    circles.enter()
+	        .append('circle')
+	        .attr('class', 'node')
+	        .attr('r', 20)
+	        .call(force.drag);  // This binds a behavior to the circles to allow interactive dragging.
 	});
 
 
+	// Since the force layout is a physics simulation, it runs a tick function after
+	// every update of its internal state. This is where we can update the graphical
+	// elements of our page to mirror what D3's simulation is doing.
 	function tick() {
 	    // Update position attributes for all the svg lines and circles.
 	    lines.attr('x1', function(d) { return d.source.x; })
@@ -9977,9 +10070,30 @@
 	}
 
 
-	// Things to try in console (make global first)
-	//     lines = d3.select(null);
-	//     lines = lines.data([]).exit().remove()
+	// Make some stuff accessible to js console so we can play with it.
+	window.force = force;
+
+	// Try playing around with force params in the js console:
+	//     force.charge(-100).start()
+	//     force.linkDistance(20).start()
+
+
+
+
+	// Fun fact!
+	// The force layout is actually what Box's ClusterRunner Slave Monitor dashboard is based on!
+	// Link for Boxers: http://hud.inside-box.net:7337/slave_monitor/
+	// Link for everyone: https://github.com/josephharrington/ClusterRunner-Dashboard#slave-monitor
+
+
+
+	// Thank you!
+	// Thanks for checking out this tutorial! D3 has a steep learning curve, but generally great
+	// documentation and a ton of examples. Hopefully now you have enough foundation about what
+	// D3 is doing that you can read through examples with a bit more insight into what the code
+	// is doing. :)
+
+	// More examples at: https://github.com/mbostock/d3/wiki/Gallery
 
 
 /***/ }
