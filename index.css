@@ -6,9 +6,13 @@ html, body {
     font-family: "Helvetica", "Arial", sans-serif;
 }
 
-h1, p {
+h1, h2, p {
     font-weight: 200;
     margin: 20px;
+}
+
+h2 {
+    font-size: 15px;
 }
 
 li {

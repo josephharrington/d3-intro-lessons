@@ -3,7 +3,6 @@ var svg = d3.select('#content').append('svg')
     .attr('width', window.innerWidth)
     .attr('height', window.innerHeight);
 
-
 // Make 5 rectangles for us to play with.
 for (var i = 0; i < 5; i++) {
     svg.append('rect').attr({
@@ -14,8 +13,15 @@ for (var i = 0; i < 5; i++) {
         class: 'blueShape'
     });
 }
-
 var rectangles = svg.selectAll('rect');
+
+
+// Lesson 3: Enter and Exit
+
+// In the last lesson we saw that we can bind data to elements on the page, and then use that
+// data to change the appearance of the elements. But what if the data we're using is not a fixed
+// length? We'll probably want to add and remove elements if the size of our data changes. That's
+// where D3's enter() and exit() methods come in.
 
 
 window.updateData = function(someNewData) {
@@ -32,15 +38,18 @@ window.updateData = function(someNewData) {
 //   updateData([1, 2])
 //   updateData([1, 2, 3, 4, 5, 6, 7])
 
+// Either way we still have 5 rectangles. :(
 
 
-// Applying data just returns the same selection, but it's modified!
-// Now enter() and exit() will refer to the additional or missing elements.
+
+// When we bind data to a selection with the data() method, it gives us back the same selection
+// so that we can chain more calls. But that selection is actually slightly modified! If the number
+// of data elements changed, enter() and exit() will refer to the additional or missing elements.
 window.updateDataBetter = function(someNewData) {
 
     rectangles = rectangles.data(someNewData);
 
-    // Create new
+    // Create new rectangles
     rectangles.enter()
         .append('rect')
         .attr({
@@ -51,7 +60,7 @@ window.updateDataBetter = function(someNewData) {
             class: 'blueShape'
         });
 
-    // Destroy old
+    // Destroy old rectangles
     rectangles.exit()
         .remove();
 
@@ -62,8 +71,12 @@ window.updateDataBetter = function(someNewData) {
         });
 };
 
+// Try:
+//   updateDataBetter([1, 2])
+//   updateDataBetter([1, 2, 3, 4, 5, 6, 7])
 
-// We can make this look good too. :)
+
+// And of course can make this look good too just by adding transition(). :)
 window.updateDataBest = function(someNewData) {
 
     rectangles = rectangles.data(someNewData);
@@ -95,3 +108,7 @@ window.updateDataBest = function(someNewData) {
             return d * 50;
         });
 };
+
+// Try:
+//   updateDataBest([1, 2])
+//   updateDataBest([1, 2, 3, 4, 5, 6, 7])
