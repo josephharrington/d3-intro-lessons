@@ -65,7 +65,7 @@ window.updateDataBetter = function(someNewData) {
         .remove();
 
     // Update existing (same as updateData() above)
-    rectangles.data(someNewData)
+    rectangles
         .attr('height', function(d) {
             return d * 50;
         });
@@ -81,10 +81,14 @@ window.updateDataBest = function(someNewData) {
 
     rectangles = rectangles.data(someNewData);
 
-    // Create
+    // Create new rectangles
+    // Note: the height here is 0! (Compare to the previous function where we created new
+    // rects with a function for height.) This is just an animation trick to get newly
+    // created rects to *start* with height 0 and then animate up to their final height.
+    // The update section below takes care of animating all rects, even newly created ones,
+    // to a height parameterized by their data.
     rectangles.enter()
         .append('rect')
-
         .attr({
             x: function(d, i) {return 100 + i * 100},
             y: 100,
@@ -101,9 +105,7 @@ window.updateDataBest = function(someNewData) {
 
     // Update (same as updateHeightDataWithTransition() from lesson 2)
     rectangles
-        .data(someNewData)
         .transition()
-        .duration(2000)
         .attr('height', function(d) {
             return d * 50;
         });
